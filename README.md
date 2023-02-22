@@ -15,6 +15,6 @@ library(netMUG)
 ```
 
 ### References:
-> [1] Shi WJ, Zhuang Y, Russell PH et al. Unsupervised discovery of phenotype-specific multi-omics networks. Bioinformatics 2019;35:4336–43.
-> [2] Kuijjer ML, Tung MG, Yuan G et al. Estimating Sample-Specific Regulatory Networks. iScience 2019;14:226–40.
+> [1] Shi WJ, Zhuang Y, Russell PH et al. Unsupervised discovery of phenotype-specific multi-omics networks. Bioinformatics 2019;35:4336–43.\
+> [2] Kuijjer ML, Tung MG, Yuan G et al. Estimating Sample-Specific Regulatory Networks. iScience 2019;14:226–40.\
 > [3] Langfelder P, Zhang B, Horvath S. Defining clusters from a hierarchical cluster tree: the Dynamic Tree Cut package for R. Bioinformatics 2008;24:719–20.
