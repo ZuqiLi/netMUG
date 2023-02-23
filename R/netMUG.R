@@ -106,7 +106,7 @@ computeDist <- function(ISNs){
 
 
 netMUG <- function(X, Y, Z, l1, l2, s1, s2, noTrait=FALSE, subsamplingNum=500, 
-                   CCcoef=NULL, cutHeight=0.999, plotTree, nCores,
+                   CCcoef=NULL, cutHeight=0.999, plotTree=FALSE, nCores=1,
                    minClusterSize=1, deepSplit=0){
   
   # Step 1: select multi-view features informed by an extraneous variable
