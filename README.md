@@ -13,12 +13,45 @@ devtools::install_github("ZuqiLi/netMUG")
 # Load package
 library(netMUG)
 ```
+The current netMUG is developed under R version 4.2.1 with the following packages:
+- parallel (4.2.1)
+- devtools (2.4.3)
+- dynamicTreeCut (1.63.1)
+- SmCCNet (0.99.0)
 
 ### Usage
 There're 2 ways to use netMUG: call the all-in-one-go function or break it down to steps.
-#### Strategy 1
+#### Strategy 1: All-in-one-go function
 ```
-res = netMUG()
+# X is the first data view of shape [n x p1]
+# Y is the second data view of shape [n x p2]
+# Z is the extraneous variable of shape [n]
+# l1, l2 are the sparsity parameters (more explanation can be found in SmCCNet), which can be tuned via cross validation
+# s1, s2 are the subsampling parameters (more explanation can be found in SmCCNet), which can be tuned via cross validation
+library(netMUG)
+res = netMUG(X, Y, Z, l1, l2, s1, s2)
+# netMUG returns a list: the selected features from X, the selected features from Y, ISNs, and the final clustering.
+```
+#### Strategy 2: step-by-step pipeline
+```
+library(netMUG)
+# Step 1: select multi-view features informed by an extraneous variable
+smccnet <- selectFeatures(X, Y, Z, l1, l2, s1, s2)
+Xsub <- X[, smccnet$featureX]
+Ysub <- Y[, smccnet$featureY]
+
+# Step 2: build ISNs from the selected features
+V <- cbind(Xsub, Ysub)
+ISNs <- buildInfISNs(V, Z, nCores = 1)
+
+# Step 3: compute distances between ISNs
+dis <- computeDist(ISNs)
+
+# Step 4: Ward's hierarchical clustering with Dynamic Tree Cut
+dendro <- hclust(as.dist(dis_m), method = "ward.D2")
+clust <- cutreeDynamic(dendro, minClusterSize = 1, distM = dis, 
+                      deepSplit = 0)
+clust <- as.factor(clust)
 ```
 
 ### References
