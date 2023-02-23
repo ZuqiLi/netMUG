@@ -35,8 +35,8 @@ Z <- runif(100)
 l1 <- 0.2
 l2 <- 0.2
 # s1, s2 are the subsampling parameters (more explanation can be found in SmCCNet)
-s1 = 0.8
-s2 = 0.9
+s1 <- 0.8
+s2 <- 0.9
 
 # netMUG returns a list: the selected features from X, the selected features from Y, ISNs, and the final clustering
 res <- netMUG(X, Y, Z, l1, l2, s1, s2)
@@ -63,7 +63,7 @@ clust <- cutreeDynamic(dendro, minClusterSize = 1, distM = dis,
                       deepSplit = 0)
 clust <- as.factor(clust)
 ```
-
+### Acknowledgement
 ### References
 > [1] Shi WJ, Zhuang Y, Russell PH et al. Unsupervised discovery of phenotype-specific multi-omics networks. Bioinformatics 2019;35:4336–43.\
 > [2] Kuijjer ML, Tung MG, Yuan G et al. Estimating Sample-Specific Regulatory Networks. iScience 2019;14:226–40.\
