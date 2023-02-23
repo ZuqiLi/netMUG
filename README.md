@@ -21,20 +21,30 @@ The current netMUG is developed under R version 4.2.1 with the following package
 
 ### Usage
 There're 2 ways to use netMUG: call the all-in-one-go function or break it down to steps.
-#### Strategy 1: All-in-one-go function
+#### Strategy 1: all-in-one-go function
 ```
-# X is the first data view of shape [n x p1]
-# Y is the second data view of shape [n x p2]
-# Z is the extraneous variable of shape [n]
-# l1, l2 are the sparsity parameters (more explanation can be found in SmCCNet), which can be tuned via cross validation
-# s1, s2 are the subsampling parameters (more explanation can be found in SmCCNet), which can be tuned via cross validation
 library(netMUG)
-res = netMUG(X, Y, Z, l1, l2, s1, s2)
-# netMUG returns a list: the selected features from X, the selected features from Y, ISNs, and the final clustering.
+
+# The first data view of shape [n x p1]
+X <- matrix(runif(5000), nrow=100)
+# The second data view of shape [n x p2]
+Y <- matrix(runif(4000), nrow=100)
+# The extraneous variable of shape [n]
+Z <- runif(100)
+# l1, l2 are the sparsity parameters (more explanation can be found in SmCCNet)
+l1 <- 0.2
+l2 <- 0.2
+# s1, s2 are the subsampling parameters (more explanation can be found in SmCCNet)
+s1 = 0.8
+s2 = 0.9
+
+# netMUG returns a list: the selected features from X, the selected features from Y, ISNs, and the final clustering
+res <- netMUG(X, Y, Z, l1, l2, s1, s2)
 ```
 #### Strategy 2: step-by-step pipeline
 ```
 library(netMUG)
+
 # Step 1: select multi-view features informed by an extraneous variable
 smccnet <- selectFeatures(X, Y, Z, l1, l2, s1, s2)
 Xsub <- X[, smccnet$featureX]
