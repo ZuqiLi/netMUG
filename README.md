@@ -3,6 +3,17 @@ A network-guided multi-view clustering framework
 
 netMUG (**net**work-guided **MU**lti-view clusterin**G**) is a novel pipeline that clusters samples on the basis of these sample-specific feature interactions or wirings. In particular, in the presence of 2-view data, multi-view features are jointly selected via SmCCNet [1], based on canonical correlations and additional extraneous variable. ISNs (individual-specific networks) [2] are constructed from the selected features, taking as a measure of edge strength the overall correlation between every pair of features and the extraneous data. The Euclidean distance metric representing dissimilarities between ISNs is fed into Ward’s hierarchical clustering, using the Dynamic Tree Cut R library to automatically derive the number of clusters [3].
 
+### Environment
+For better reproducibility, it's recommended to refer to the following hardware and software settings:
+```
+Operating system: Ubuntu 20.04.6 LTS
+Processor: Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz
+Memory: 767 GiB
+Graphics: llvmpipe (LLVM 12.0.0, 256 bits)
+Python version: 3.9.7
+RStudio version: 2022.07.1+554
+```
+
 ### Installation
 To install netMUG in your R environment, you can either download the code files or use the following code in R:
 ```
