@@ -15,14 +15,12 @@ RStudio version: 2022.07.1+554
 ```
 
 ### Installation
-To install netMUG in your R environment, you can either download the code files or use the following code in R:
+Before using netMUG in your R environment, please download the code files from this Github repository in R:
 ```
-# Install package
+# Download netMUG functions
 if (!require("devtools")) install.packages("devtools")
-devtools::install_github("ZuqiLi/netMUG")
-
-# Load package
-library(netMUG)
+library(devtools)
+source_url("https://raw.githubusercontent.com/ZuqiLi/netMUG/main/R/netMUG.R")
 ```
 The current netMUG is developed under R version 4.2.1 with the following packages:
 - parallel (4.2.1)
@@ -34,8 +32,6 @@ The current netMUG is developed under R version 4.2.1 with the following package
 There're 2 ways to use netMUG: call the all-in-one-go function or break it down to steps.
 #### Strategy 1: all-in-one-go function
 ```
-library(netMUG)
-
 # The first data view of shape [n x p1]
 X <- matrix(runif(5000), nrow=100)
 # The second data view of shape [n x p2]
@@ -54,8 +50,6 @@ res <- netMUG(X, Y, Z, l1, l2, s1, s2)
 ```
 #### Strategy 2: step-by-step pipeline
 ```
-library(netMUG)
-
 # Step 1: select multi-view features informed by an extraneous variable
 smccnet <- selectFeatures(X, Y, Z, l1, l2, s1, s2)
 Xsub <- X[, smccnet$featureX]
@@ -69,7 +63,7 @@ ISNs <- buildInfISNs(V, Z, nCores = 1)
 dis <- computeDist(ISNs)
 
 # Step 4: Ward's hierarchical clustering with Dynamic Tree Cut
-dendro <- hclust(as.dist(dis_m), method = "ward.D2")
+dendro <- hclust(as.dist(dis), method = "ward.D2")
 clust <- cutreeDynamic(dendro, minClusterSize = 1, distM = dis, 
                       deepSplit = 0)
 clust <- as.factor(clust)
