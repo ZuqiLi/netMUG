@@ -124,7 +124,7 @@ netMUG <- function(X, Y, Z, l1, l2, s1, s2, noTrait=FALSE, subsamplingNum=500,
   dis <- computeDist(ISNs)
   
   # Step 4: Ward's hierarchical clustering with Dynamic Tree Cut
-  dendro <- hclust(as.dist(dis_m), method = "ward.D2")
+  dendro <- hclust(as.dist(dis), method = "ward.D2")
   clust <- cutreeDynamic(dendro, minClusterSize = minClusterSize, distM = dis, 
                         deepSplit = deepSplit)
   clust <- as.factor(clust)
