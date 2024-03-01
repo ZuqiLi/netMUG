@@ -79,6 +79,22 @@ buildInfISNs <- function(V, Z, nCores=1){
   gCorV <- cor(V)
   gCorZ <- cor(V, Z)
   gnet <- gCorV + matrix(gCorZ, nrow=p, ncol=p, byrow=TRUE) + matrix(gCorZ, nrow=p, ncol=p, byrow=FALSE)
+
+  # using a single core
+  if(nCores == 1){
+    ISNs = list()
+    for(i in seq_len(n)){
+      corV <- cor(V[-i,])
+      corZ <- cor(V[-i,], Z[-i])
+      net <- corV + matrix(corZ, nrow=p, ncol=p, byrow=TRUE) + matrix(corZ, nrow=p, ncol=p, byrow=FALSE)
+      ISN <- abs(gnet - net)
+      diag(ISN) <- 0
+      ISNs[[i]] = ISN
+    }
+  }
+  return(ISNs)
+
+  # using multiple cores
   cl <- makeCluster(nCores, type = "PSOCK")
   clusterExport(cl, c("V", "Z", "gnet", "n", "p"))
   ISNs <- parLapply(cl, seq_len(n), function(i){
