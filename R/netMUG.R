@@ -1,6 +1,6 @@
 library(parallel)
 library(SmCCNet)
-library(devtools)
+#library(devtools)
 library(dynamicTreeCut)
 
 
