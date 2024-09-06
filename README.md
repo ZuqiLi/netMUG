@@ -26,6 +26,7 @@ The current netMUG is developed under R version 4.2.1 with the following package
 - parallel (4.2.1)
 - devtools (2.4.3)
 - dynamicTreeCut (1.63.1)
+- Matrix (1.4.1)
 - SmCCNet (0.99.0)
 
 ### Usage
