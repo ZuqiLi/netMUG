@@ -32,27 +32,27 @@ selectFeatures <- function(X, Y, Z, l1, l2, s1, s2,
                                s1 = s1, s2 = s2, NoTrait = noTrait, FilterByTrait = FALSE,
                                SubsamplingNum = subsamplingNum, CCcoef=CCcoef, trace = FALSE)
   Ws_nonzero <- which(rowSums(abs(Ws)) != 0)
+  P1 = tail(which(Ws_nonzero <= p1), 1)
   
   # Step 2: Compute the similarity matrix based on one or more canonical correlation weight vectors
   featureLabel <- c(colnames(X), colnames(Y))
   sim <- getAbar(Ws[Ws_nonzero,], 
-                 P1 = which(Ws_nonzero > p1)[1]-1, 
+                 P1 = P1, 
                  FeatureLabel = featureLabel[Ws_nonzero])
   
   # Step 3: Extract multi-view modules based on the similarity matrix
-  modules <- getMultiOmicsModules(sim, 
-                                 P1 = tail(which(Ws_nonzero <= p1), 1), 
+  modules <- getMultiOmicsModules(sim, P1 = P1, 
                                  CutHeight = cutHeight, PlotTree = plotTree)
   #modules <- lapply(modules, function(module) Ws_nonzero[module])
   featureIdx <- Ws_nonzero[unlist(modules)]
   featureX <- featureIdx[featureIdx <= p1]
   featureY <- featureIdx[featureIdx > p1] - p1
   return(list(featureX = featureX, featureY = featureY,
-              Ws = Ws, sim = sim, modules = modules))
+              Ws = Ws, P1 = P1, sim = sim, modules = modules))
 }
 
 
-plotModules <- function(X, Y, Ws, sim, modules, corr=NULL, moduleIdx=1,
+plotModules <- function(X, Y, Ws, sim, modules, corr=NULL, moduleIdx=1, P1=NULL,
                         edgeCut=0, addCorrSign=TRUE, saveFile=NULL, 
                         showType1Label=TRUE, showType2Label=TRUE, 
                         plotTitle="", netLayout="lgl",
@@ -62,11 +62,13 @@ plotModules <- function(X, Y, Ws, sim, modules, corr=NULL, moduleIdx=1,
   if(is.null(corr)){
     corr <- cor(cbind(X, Y)[,Ws_nonzero])
   }
+  if(is.null(P1)){
+    P1 <- which(Ws_nonzero > dim(X)[2])[1]-1
+  }
   featureLabel <- c(colnames(X), colnames(Y))[Ws_nonzero]
-  p1 <- which(Ws_nonzero > dim(X)[2])[1]-1
   
   plotMultiOmicsNetwork(sim, corr, modules, ModuleIdx = moduleIdx,
-                        P1 = p1, AddCorrSign = addCorrSign, EdgeCut = edgeCut,
+                        P1 = P1, AddCorrSign = addCorrSign, EdgeCut = edgeCut,
                         FeatureLabel = featureLabel, SaveFile = saveFile,
                         ShowType1Label = showType1Label, ShowType2Label = showType2Label,
                         NetLayout = netLayout, ShowNodes = showNodes, 
