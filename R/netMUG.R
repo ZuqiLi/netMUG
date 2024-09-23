@@ -98,7 +98,7 @@ buildInfISNs <- function(V, Z, nCores=1){
 
   # using multiple cores
   cl <- makeCluster(nCores, type = "PSOCK")
-  clusterExport(cl, c("V", "Z", "gnet", "n", "p"))
+  clusterExport(cl, c("V", "Z", "gnet", "n", "p"), envir=environment())
   ISNs <- parLapply(cl, seq_len(n), function(i){
     corV <- cor(V[-i,])
     corZ <- cor(V[-i,], Z[-i])
